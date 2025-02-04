@@ -1,21 +1,19 @@
-Peer-to-Peer File Sharing System
+# Peer-to-Peer File Sharing System
 
-Yiğit Sarıyar -- CENG 421 - 290201053
-
-Introduction
+### Introduction
 
 This project demonstrates a simplified peer-to-peer (P2P) file sharing
 system, reminiscent of how torrent-like file distribution can be
 handled. It consists of two main components:
 
-1.  A ****Server**** that:
+1.  ****Server****:
 
     - Manages metadata about shared files (i.e., which files are shared
       and by which peers).
     - Responds to client requests to list files, or to locate a
       particular file's owner.
 
-2.  A ****Client**** that:
+2.  ****Client****:
 
     - Connects to the server, announces files it wants to share, and
       requests file information.
@@ -26,13 +24,11 @@ The P2P file transfer occurs ****directly**** between clients once the
 server supplies the necessary information (IP and port of the file's
 owner).
 
-Features / What the Service Does
+### Features / What the Service Does
 
 1.  ****Share (Announce) a File:****
 
-<!-- -->
-
-1.  - The Client notifies the Server that it has a particular file
+    - The Client notifies the Server that it has a particular file
       available.
     - The Server stores the file metadata (filename, IP of the sharer,
       and port where it can be requested).
@@ -54,14 +50,14 @@ Features / What the Service Does
     - The peer sends the file directly to the requesting client over
       TCP.
 
-The server does ****not**** store or relay file contents---only
+The server does ****not store or relay file contents **** - only
 metadata. File data is transferred P2P, making the system more scalable.
 
-System Overview & Implementation
+### System Overview & Implementation
 
-****Server****:
+- ****Server****:
 
-- - Listens on a TCP port for incoming client connections.
+    - Listens on a TCP port for incoming client connections.
 
   - Each client connection is handled in a separate thread.
 
@@ -95,7 +91,7 @@ System Overview & Implementation
 
   - It also provides a simple command line interface (CLI) for the user.
 
-Server Flow
+#### Server Flow
 
 1.  ****Start****: The server listens on a specified port (supplied as
     command-line argument).
@@ -116,7 +112,7 @@ Server Flow
 4.  ****Cleanup****: On client disconnect, remove that peer's files from
     the list.
 
-Client Flow
+####  Client Flow
 
 1.  ****Startup****:
 
@@ -155,79 +151,58 @@ Client Flow
       to **\<ip\>:\<port\>** and sends the filename. The peer then
       streams the file contents back.
 
-How to Compile
+### How to Compile
 
 - ****Compile the server****:
 
-<!-- -->
-
-- **gcc -pthread -o server server.c**
+    - **gcc -pthread -o server server.c**
 
 - ****Compile the client****:
 
-  **gcc -pthread -o client client.c**
+    - **gcc -pthread -o client client.c**
 
-## How to Run
+### How to Run
 
-- - - ### Running the Server
+- ##### Running the Server
 
-1.  Start the server on a specified port (e.g., 8080):
+    1.  Start the server on a specified port (e.g., 8080):  **./server 8080**
 
-    **./server 8080**
+    2.  The server listens for new TCP connections on port 8080.
 
-2.  The server listens for new TCP connections on port 8080.
+    3.  ****Log Output****: Any important server-side events are logged to **server.log**.
 
-3.  ****Log Output****: Any important server-side events are logged to
-    **server.log**.
+- ##### Running the Client
 
-- - - ### Running the Client
+    1.  Launch the client with:
 
-1.  Launch the client with:
-
-    **./client \<username\> \<server_ip\> \<server_port\>
+        **./client \<username\> \<server_ip\> \<server_port\>
     \<my_peer_port\>**
 
-    For example:
+        For example:
 
-    **./client **yigido** 127.0.0.1 8080 9001**
+        **./client **yigido** 127.0.0.1 8080 9001**
 
-    - **yigido**: the username
-    - **127.0.0.1**: address of the server if running locally
-    - **8080**: must match the server\'s listening port
-    - **9001**: the port on which this client will accept P2P requests
-      from other clients
+        - **yigido**: the username
+        - **127.0.0.1**: address of the server if running locally
+        - **8080**: must match the server\'s listening port
+        - **9001**: the port on which this client will accept P2P requests
+          from other clients
 
-2.  ****Client Commands****:
+    2.  ****Client Commands****:
 
-    - ******ANNOUNCE \<filename\>******  
-      Tells the server we have **\<filename\>** to share.
-    - ******LIST_FILES******  
-      Retrieves the list of all shared files from the server.
-    - ******REQUEST \<filename\>******  
-      Asks the server who has **\<filename\>**. If found, automatically
-      downloads it from that peer.
-    - ******EXIT******  
-      Closes the client program.
+        - ******ANNOUNCE \<filename\>******  
+          Tells the server we have **\<filename\>** to share.
+        - ******LIST_FILES******  
+          Retrieves the list of all shared files from the server.
+        - ******REQUEST \<filename\>******  
+          Asks the server who has **\<filename\>**. If found, automatically
+          downloads it from that peer.
+        - ******EXIT******  
+          Closes the client program.
 
-## References / Sources {#references-sources}
+## References / Sources
 
 -  [The Definitive Guide to Linux Network
   Programming.pdf](https://kalfaoglu.com/ceng421/The%20Definitive%20Guide%20to%20Linux%20Network%20Programming.pdf)
 - [Data Communications and Networking By Behrouz
   A.Forouzan](https://kalfaoglu.com/ceng421/Data%20Communications%20and%20Networking%20By%20Behrouz%20A.Forouzan.pdf)
-
-Example Screenshots
-
-![](Pictures/10000001000009A600000524ACA20523.png){width="17cm"
-height="9.058cm"}
-
-![](Pictures/10000001000009A600000524917C0892.png){width="17cm"
-height="9.058cm"}
-
-![](Pictures/10000001000009A600000524298E82B4.png){width="17cm"
-height="9.058cm"}![](Pictures/10000001000009A600000524996FC056.png){width="17cm"
-height="9.058cm"}![](Pictures/10000001000009A6000005243CD77C15.png){width="17cm"
-height="9.058cm"}
-
-![](Pictures/10000001000009A60000052418ED05D4.png){width="17cm"
-height="9.058cm"}
